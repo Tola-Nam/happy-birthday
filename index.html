@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        animation: bgChange 10s infinite alternate;
+        overflow: hidden;
+      }
+
+      @keyframes bgChange {
+        0% {
+          background: linear-gradient(to top left, #fbcfe8, #fcd34d);
+        }
+        50% {
+          background: linear-gradient(to top right, #a5f3fc, #f0abfc);
+        }
+        100% {
+          background: linear-gradient(to bottom left, #fda4af, #c4b5fd);
+        }
+      }
+
+      .heart {
+        position: absolute;
+        animation: floatUp 8s linear infinite;
+        font-size: 1.5rem;
+        opacity: 0.6;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(100vh) scale(0.5);
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.9;
+        }
+        100% {
+          transform: translateY(-10vh) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      .flicker {
+        animation: flicker 1s infinite;
+      }
+
+      @keyframes flicker {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .float {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .fade-in {
+        opacity: 0;
+        animation: fadeIn 1.5s ease forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="flex flex-col items-center justify-center text-center min-h-screen p-4 relative">
+    <canvas
+      id="fireworks"
+      class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"></canvas>
+    <div id="heart-bg" class="absolute inset-0 z-0 pointer-events-none"></div>
+
+    <div class="relative z-10 mb-6">
+      <h1 class="text-green-500">special day srey nich my love❤️</h1>
+      <div
+        id="countdown"
+        class="text-4xl font-bold text-white bg-pink-500 px-8 py-4 rounded-full shadow-lg">
+        Countdown: 00:20
+      </div>
+    </div>
+
+    <div
+      id="birthdayContent"
+      class="hidden z-10 max-w-xl w-full bg-white bg-opacity-90 rounded-3xl shadow-2xl text-center p-6 space-y-5">
+      <h2
+        class="text-xl text-pink-600 font-semibold fade-in mt-4"
+        style="animation-delay: 0.5s">
+        To my sweet, special girl
+      </h2>
+
+      <!-- 4-Floor Cake -->
+      <div
+        class="relative w-full h-60 flex flex-col items-center fade-in"
+        style="animation-delay: 1s">
+        <!-- Candles -->
+        <div class="absolute -top-10 flex gap-4">
+          <div class="w-2 h-10 bg-blue-400 rounded flicker relative">
+            <div
+              class="absolute -top-4 left-1/2 -translate-x-1/2 w-3 h-3 bg-yellow-300 rounded-full animate-ping"></div>
+          </div>
+          <div class="w-2 h-10 bg-yellow-400 rounded flicker relative">
+            <div
+              class="absolute -top-4 left-1/2 -translate-x-1/2 w-3 h-3 bg-orange-300 rounded-full animate-ping"></div>
+          </div>
+          <div class="w-2 h-10 bg-purple-400 rounded flicker relative">
+            <div
+              class="absolute -top-4 left-1/2 -translate-x-1/2 w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
+          </div>
+        </div>
+
+        <!-- Cake Floor 1 (top) -->
+        <div
+          class="w-24 h-10 bg-pink-200 rounded-t-2xl shadow-md relative z-10"></div>
+        <!-- Cake Floor 2 -->
+        <div class="w-32 h-12 bg-pink-300 shadow-md"></div>
+        <!-- Cake Floor 3 -->
+        <div class="w-40 h-14 bg-pink-400 shadow-md"></div>
+        <!-- Cake Floor 4 (bottom) -->
+        <div class="w-52 h-16 bg-pink-500 rounded-b-2xl shadow-md"></div>
+      </div>
+
+      <!-- Noodles with Fire -->
+      <div
+        class="relative w-full flex justify-center items-center fade-in"
+        style="animation-delay: 1.2s">
+        <div
+          class="w-24 h-24 bg-yellow-200 rounded-full shadow-inner flex items-center justify-center relative">
+          <span class="absolute text-lg">🍜</span>
+          <div
+            class="absolute -top-5 w-4 h-4 bg-orange-400 rounded-full animate-ping"></div>
+          <div
+            class="absolute -top-7 w-3 h-3 bg-red-500 rounded-full animate-ping delay-100"></div>
+        </div>
+      </div>
+
+      <h1
+        class="text-4xl font-extrabold text-pink-600 fade-in"
+        style="animation-delay: 1.5s">
+        Happy <span class="text-green-500">26th</span> Birthday!
+      </h1>
+      <p class="text-lg text-gray-600 fade-in" style="animation-delay: 2s">
+        I hope today is filled with love, sweetness, and everything you adore.
+      </p>
+
+      <div
+        class="flex justify-center gap-4 mt-4 fade-in"
+        style="animation-delay: 2.5s">
+        <div class="text-3xl float text-pink-400">🎈</div>
+        <div class="text-3xl float text-yellow-300">🎈</div>
+        <div class="text-3xl float text-purple-400">🎈</div>
+      </div>
+    </div>
+
+    <script>
+      // Countdown
+      let timeLeft = 20;
+      const countdownEl = document.getElementById("countdown");
+      const birthdayContent = document.getElementById("birthdayContent");
+
+      const timer = setInterval(() => {
+        let mins = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+        let secs = String(timeLeft % 60).padStart(2, "0");
+        countdownEl.textContent = `Countdown: ${mins}:${secs}`;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+          clearInterval(timer);
+          countdownEl.parentElement.classList.add("hidden");
+          birthdayContent.classList.remove("hidden");
+          triggerFireworks();
+        }
+      }, 1000);
+
+      // Floating hearts
+      const heartContainer = document.getElementById("heart-bg");
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.textContent = ["💖", "❤️", "💕", "💘"][
+          Math.floor(Math.random() * 4)
+        ];
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 5 + Math.random() * 5 + "s";
+        heart.style.fontSize = 1 + Math.random() * 2 + "rem";
+        heart.style.opacity = Math.random();
+        heartContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 10000);
+      }
+      setInterval(createHeart, 300);
+
+      // Fireworks
+      function triggerFireworks() {
+        const canvas = document.getElementById("fireworks");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+
+        function createParticle(x, y, color) {
+          const angle = Math.random() * 2 * Math.PI;
+          const speed = Math.random() * 5 + 2;
+          return {
+            x,
+            y,
+            color,
+            radius: Math.random() * 3 + 2,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            alpha: 1,
+          };
+        }
+
+        function explode(x, y) {
+          const colors = [
+            "#f87171",
+            "#facc15",
+            "#60a5fa",
+            "#a78bfa",
+            "#34d399",
+          ];
+          for (let i = 0; i < 30; i++) {
+            particles.push(
+              createParticle(
+                x,
+                y,
+                colors[Math.floor(Math.random() * colors.length)]
+              )
+            );
+          }
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.alpha -= 0.01;
+            if (p.alpha <= 0) {
+              particles.splice(i, 1);
+              continue;
+            }
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+            ctx.fill();
+          }
+          requestAnimationFrame(animate);
+        }
+
+        setInterval(() => {
+          explode(
+            Math.random() * canvas.width,
+            (Math.random() * canvas.height) / 1.5
+          );
+        }, 600);
+
+        animate();
+      }
+    </script>
+  </body>
+</html>
